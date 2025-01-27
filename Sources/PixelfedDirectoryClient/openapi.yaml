@@ -1,0 +1,105 @@
+openapi: 3.1.1
+info:
+  title: Pixelfed
+  version: 1.0.0
+tags: []
+servers:
+- url: https://pixelfed.org/api
+paths:
+  /v1/servers/all.json:
+    get:
+      operationId: findServers
+      parameters:
+      - name: scope
+        allowEmptyValue: true
+        in: query
+        schema:
+          type: string
+          default: All
+      - name: country
+        allowEmptyValue: true
+        in: query
+        schema:
+          type: string
+          default: all
+      - name: language
+        allowEmptyValue: true
+        in: query
+        schema:
+          type: string
+          default: en
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          examples:
+                          - 1
+                          minimum: 1
+                        domain:
+                          type: string
+                          format: hostname
+                          examples:
+                          - pixelfed.social
+                        short_description:
+                          type: string
+                          examples:
+                          - The original Pixelfed instance, operated by the main developer
+                            @dansup
+                        header_image:
+                          type: string
+                          format: uri
+                          examples:
+                          - https://pixelfed-web1.nyc3.cdn.digitaloceanspaces.com/assets/servers/1/header/header-tbtrfbsd4fip.jpg
+                        category:
+                          type: string
+                          examples:
+                          - General
+                        location:
+                          type: string
+                          examples:
+                          - USA
+                        public_email:
+                          type: string
+                          format: email
+                          examples:
+                          - hello@pixelfed.org
+                        established_since:
+                          type: string
+                          format: date
+                          examples:
+                          - Jun 2018
+                        stats:
+                          type: object
+                          properties:
+                            user_count:
+                              type: integer
+                              minimum: 0
+                            post_count:
+                              type: integer
+                              minimum: 0
+                          required:
+                          - user_count
+                          - post_count
+                      required:
+                      - id
+                      - domain
+                      - short_description
+                      - header_image
+                      - category
+                      - location
+                      - public_email
+                      - established_since
+                      - stats
+                required:
+                - data
